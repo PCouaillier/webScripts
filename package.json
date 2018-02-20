@@ -1,0 +1,27 @@
+{
+  "name": "webscripts",
+  "version": "1.0.0",
+  "description": "register of some script I use to improve my user experience on some websites",
+  "main": "index.js",
+  "scripts": {
+    "install": "tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PCouaillier/webScripts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PCouaillier/webScripts/issues"
+  },
+  "homepage": "https://github.com/PCouaillier/webScripts#readme",
+  "dependencies": {
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.1"
+  }
+}

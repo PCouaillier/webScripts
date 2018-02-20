@@ -8,14 +8,14 @@
 // @grant        none
 // ==/UserScript==
 
-const BLOCKING_MODE = 'WHITELIST_ALLOW_TOP_LEVEL';
+// const BLOCKING_MODE = 'WHITELIST_ALLOW_TOP_LEVEL';
 
 const getPlaylistTime = () => {
-  var time = [0,0,0];
-  var timeElements = document.querySelectorAll('.pl-video-time .more-menu-wrapper .timestamp span');
+  let time = [0,0,0];
+  let timeElements = document.querySelectorAll('.pl-video-time .more-menu-wrapper .timestamp span');
   Array.prototype.forEach.call(timeElements, (e) => {
-    var t = e.innerHTML.split(':');
-    var limit = t.length - 1;
+    let t = e.innerHTML.split(':');
+    let limit = t.length - 1;
     for(let i=0;i<t.length;i++) {
       time[2-i] += parseInt(t[limit-i]);
     }
@@ -29,16 +29,16 @@ const getPlaylistTime = () => {
 };
 
 const RenderPlaylistTime = () => {
-  var ul = document.querySelector('#pl-header .pl-header-content ul.pl-header-details');
+  let ul = document.querySelector('#pl-header .pl-header-content ul.pl-header-details');
   if(ul && ul.children.length !== 4) {
-    var li = document.createElement('li');
+    let li = document.createElement('li');
     li.innerHTML = getPlaylistTime().join(':');
     ul.insertBefore(li, ul.children[2]);
   }
 };
 
 const ForceRenderPlaylistTime = function ForceRenderPlaylistTime() {
-  var ul = document.querySelector('#pl-header .pl-header-content ul.pl-header-details');
+  let ul = document.querySelector('#pl-header .pl-header-content ul.pl-header-details');
   if(ul)
     RenderPlaylistTime();
   setTimeout(ForceRenderPlaylistTime, 100);
@@ -47,7 +47,7 @@ const ForceRenderPlaylistTime = function ForceRenderPlaylistTime() {
 (function() {
     'use strict';
     function bindEvent() {
-        var target = document.getElementById('VLWL-guide-item');
+        let target = document.getElementById('VLWL-guide-item');
         if(target)
           target.addEventListener('click', ForceRenderPlaylistTime);
         else
