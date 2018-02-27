@@ -8,15 +8,16 @@
 // @grant       none
 // ==/UserScript==
 namespace Downloader {
-  function extractExtension(str) {
-	let splitStr = str.split('.');
-      splitStr.pop();
-	return splitStr.join('.');
+  function extractExtension(str: string) {
+	  let splitStr = str.split('.');
+    splitStr.pop();
+    return splitStr.join('.');
   }
-  function findName(elem: Element) {
-      if(elem.children.length===0)
-          return extractExtension(elem.innerHTML.trim());
-      return findName(elem.children[0]);
+  function findName(elem: Element): string {
+    if( elem.children.length === 0 ) {
+      return extractExtension(elem.innerHTML.trim());
+    }
+    return findName(elem.children[0]);
   }
   document.getElementsByTagName('body')[0].appendChild((()=>{
     let b = document.createElement('button');
@@ -35,9 +36,6 @@ namespace Downloader {
         if ((ext === 'jpg' || ext === 'webm' || ext === 'mp4' || ext === 'png' || ext === 'gif' || ext === 'rar' || ext === 'zip' || ext === '7z') || (!(ext !== '' && ext.length < 6 && ext !== 'html' && ext!=="html#" && ext !== 'php' && ext !== 'htm' && ext[ext.length - 1] !== '/') && confirm(ext))) {
             append = true;
         }
-        // let name = e.innerHTML.trim().replace('"','').replace('#','').replace('%','').replace('*','').replace(':','').replace('<','').replace('>','').replace('?','').replace('/','').replace('\\','').replace('|','').replace('\'','');
-
-        // if (name === '') name = e.href;
 
         if (append)
             s += 'wget -nc -O "'+ findName(e).trim() + "__" + (Math.random()*1000000 | 0).toString() + '.' + ext +'" ' + e.href + ' ; ';
@@ -55,7 +53,7 @@ namespace Downloader {
 }
 
 namespace Player {
-  interface El {
+  export interface El {
     name: string,
     url: string,
     ext: string,
@@ -80,9 +78,9 @@ namespace Player {
   (() => {
       let st = document.createElement('style');
       st.innerHTML = '.chan-player-container {' +
-            'width: 100vw;' +
+            'width: calc(100vw - 16px);' +
             'height: 100vh;' +
-            'position: absolute;' +
+            'position: fixed;' +
             'top: 0;' +
             'left: 0;' +
           '}' +
@@ -93,7 +91,7 @@ namespace Player {
       document.body.appendChild(st);
   })();
 
-  export let playerContainer = document.createElement('div');
+  let playerContainer = document.createElement('div');
   playerContainer.classList.add('chan-player-container');
   playerContainer.hidden = false;
   document.body.appendChild(playerContainer);
@@ -101,27 +99,56 @@ namespace Player {
   let player : HTMLVideoElement|HTMLImageElement|undefined = undefined;
 
   let current = 0;
-  export let elements: El[] = [];
+  let elements: El[] = [];
+  let timer: number|undefined = undefined;
+
+  export function previous() {
+    if (elements.length === 0 || current === 0) { return; }
+    if (timer !== undefined) {
+      clearTimeout(timer);
+      timer = undefined
+    }
+    createPlayer(elements[--current]);
+  }
 
   export function next() {
-    if (elements.length === 0) return;
-    if (++current < elements.length) current = 0;
+    if (timer !== undefined) {
+      clearTimeout(timer);
+      timer = undefined
+    }
+    if (elements.length === 0) { return; }
+    if (++current >= elements.length) { current = 0 };
     createPlayer(elements[current]);
   }
 
   export function createPlayer (element: El) {
 
-    while (playerContainer.children.length !==0) playerContainer.removeChild(playerContainer.children[0]);
-
+    while (playerContainer.children.length !==0) {
+      playerContainer.removeChild(playerContainer.children[0]);
+    }
     if (element.ext === 'webm' || element.ext === 'mp4') {
       player = document.createElement('video');
       player.onended = () => next();
       player.src = element.url;
+      player.controls = true;
+      player.addEventListener('keypress', (e) => {
+        if (  e.key.toLocaleLowerCase() === 'arrowright' ||
+              e.key.toLocaleLowerCase() === 'arrowleft') {
+          e.preventDefault();
+          e.stopPropagation();
+          next();
+        }
+      });
       // noinspection JSIgnoredPromiseFromCall
       player.play();
     } else {
       player = document.createElement('img');
       player.src = element.url;
+      let p = player;
+      timer = setTimeout(() => {
+        if (p !== playerContainer.children[0]) return;
+        next();
+      }, 3000);
     }
     playerContainer.appendChild(player);
   }
@@ -134,6 +161,18 @@ namespace Player {
   document.addEventListener('keypress', (e) => {
     if (e.key.toLowerCase() === 'escape') {
       playerContainer.hidden = !playerContainer.hidden;
+      if (!playerContainer.hidden && playerContainer.children.length === 0) {
+        console.log(elements[0]);
+        createPlayer(elements[0]);
+      }
+    } else if (!playerContainer.hidden && e.key.toLocaleLowerCase() === 'arrowleft') {
+      e.preventDefault();
+      e.stopPropagation();
+      previous();
+    } else if (!playerContainer.hidden && e.key.toLocaleLowerCase() === 'arrowright') {
+      e.preventDefault();
+      e.stopPropagation();
+      next();
     }
-  })
+  });
 }
