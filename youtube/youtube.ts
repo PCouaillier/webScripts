@@ -8,12 +8,10 @@
 // @grant        none
 // ==/UserScript==
 
-// const BLOCKING_MODE = 'WHITELIST_ALLOW_TOP_LEVEL';
-
 const getPlaylistTime = () => {
-  let time = [0,0,0];
+  let time = [0, 0, 0];
   let timeElements = document.querySelectorAll('.pl-video-time .more-menu-wrapper .timestamp span');
-  Array.prototype.forEach.call(timeElements, (e) => {
+  Array.prototype.forEach.call(timeElements, (e: HTMLElement) => {
     let t = e.innerHTML.split(':');
     let limit = t.length - 1;
     for(let i=0;i<t.length;i++) {

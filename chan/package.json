@@ -4,7 +4,7 @@
   "description": "register of some script I use to improve my user experience on some websites",
   "main": "index.js",
   "scripts": {
-    "prepare": "tsc -p . --outFile build/chan.js",
+    "postinstall": "tsc -p . --outFile build/chan.js --module none",
     "pretest": "tsc -p . --outDir build_test --module CommonJS",
     "test": "mocha"
   },
