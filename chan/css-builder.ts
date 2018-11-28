@@ -5,8 +5,7 @@ export function CssClasse(className: string) {
     };
 }
 
-export function CssDocument(args: object[])
-{
+export function CssDocument(args: object[]) {
     return {
         inner: args,
         toString: () => args.map(a => a.toString()).join(''),

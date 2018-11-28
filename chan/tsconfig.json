@@ -1,6 +1,11 @@
 {
     "compilerOptions": {
         "target": "es6",
+        "lib": [
+            "es6",
+            "dom",
+            "es2016.array.include"
+        ],
         "isolatedModules": false,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,

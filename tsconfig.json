@@ -3,6 +3,10 @@
         "target": "es6",
         "module": "commonjs",
         "outDir": "build",
+        "lib": [
+            "es6",
+            "es2016.array.include"
+        ],
         "isolatedModules": false,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
