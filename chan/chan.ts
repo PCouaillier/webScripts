@@ -328,24 +328,6 @@ namespace Player {
     playerContainer.hidden = true;
     document.body.appendChild(playerContainer);
 
-    playerContainer.appendChild((() => {
-        const b = document.createElement('button');
-        b.classList.add('rotate');
-        b.style.position = 'fixed';
-        b.style.top = '3rem';
-        b.style.right = '0.5rem';
-        b.style.zIndex = '990';
-        b.innerHTML = '[ rotate ]';
-        b.onclick = () => {
-            if (playerContainer.classList.contains('rotate')) {
-                playerContainer.classList.remove('rotate');
-            } else {
-                playerContainer.classList.add('rotate');
-            }
-        };
-        return b;
-    })());
-
     let player: HTMLVideoElement | HTMLImageElement | HTMLDivElement | undefined = undefined;
 
     let current = 0;
@@ -384,7 +366,7 @@ namespace Player {
 
         let el = elements[current]
         let isVid = isVideo(el);
-        createPlayer(el, isVid);
+        createPlayer(el);
         if (isVid) {
             for (let i = current + 1; i < elements.length; ++i) {
                 if (isVideo(elements[i])) {
@@ -394,7 +376,7 @@ namespace Player {
         }
     }
 
-    function createPlayer(element: El, useCache: boolean = false) {
+    function createPlayer(element: El) {
         while (playerContainer.children.length !== 0) {
             playerContainer.removeChild(playerContainer.children[0]);
         }
