@@ -1,11 +1,4 @@
-// ==UserScript==
-// @name        chan
-// @namespace   pcouaillier.chan
-// @include     https://boards.4chan.org/*
-// @include     http://boards.4chan.org/*
-// @version     1
-// @grant       none
-// ==/UserScript==
+import {CssClasse, CssDocument, CssProperty, CssSelector} from 'css-builder';
 
 let cache = document.createElement('video');
 cache.preload = 'auto';
@@ -15,7 +8,6 @@ namespace Downloader {
     const checkLocalStorage = true;
     const optimizedForFourChan = document.URL.includes('4chan.org') || document.URL.includes('8ch.net');
 
-    'use strict';
     const STORAGE_NAME = 'chan_database';
     const dlAll = (() => {
         const fourChanSelectors = {
@@ -288,6 +280,7 @@ namespace Player {
                     CssProperty('position', 'fixed'),
                     CssProperty('top', '0'),
                     CssProperty('left', '0'),
+                    CssProperty('background', '#000000'),
                 ]),
                 CssSelector('.chan-player-container > div.img', [
                     CssProperty('width', 'calc(100vw - 16px)'),
@@ -311,13 +304,18 @@ namespace Player {
                     CssProperty('height', '100vh'),
                     CssProperty('background', 'black'),
                 ]),
-                CssSelector('.chan-player-container > *', [
+                CssSelector('.chan-player-container > video, .chan-player-container > img', [
                     CssProperty('background', 'black'),
                 ]),
                 CssSelector('.chan-player-container.rotate > *', [
-                    CssProperty('width', '100vh'),
-                    CssProperty('height', '100vw'),
+                    CssProperty('width', '100vw'),
+                    CssProperty('height', '100vh'),
                     CssProperty('transform', 'rotate(90deg) translate(calc(-50vw + 50%), calc(50vh - 50%))'),
+                ]),
+                CssSelector('.chan-player-container.rotate-neg > *', [
+                    CssProperty('width', '100vw'),
+                    CssProperty('height', '100vh'),
+                    CssProperty('transform', 'rotate(-90deg) translate(calc(50vw - 50%), calc(-50vh + 50%))'),
                 ]),
             ]).toString();
         document.body.appendChild(st);
@@ -425,6 +423,7 @@ namespace Player {
         }
         playerContainer.appendChild(player);
     }
+
     let anchors = document.querySelectorAll<HTMLAnchorElement>('.fileText a') as NodeListOf<HTMLAnchorElement>;
     for (let i = 0;i < anchors.length;++i) {
         let elem = anchors[i];
@@ -433,6 +432,8 @@ namespace Player {
     }
 
     document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e && e.ctrlKey) { return; }
+
         const key = e.key ? e.key.toLowerCase() : undefined;
         if (e.key.toLowerCase() === 'escape') {
             playerContainer.hidden = !playerContainer.hidden;
@@ -481,45 +482,29 @@ namespace Player {
                     }
                     break;
                 case 'r':
-                    if (playerContainer.classList.contains('rotate')) {
-                        playerContainer.classList.remove('rotate');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (e.shiftKey) {
+                        if (playerContainer.classList.contains('rotate-neg')) {
+                            playerContainer.classList.remove('rotate-neg');
+                        } else {
+                            playerContainer.classList.add('rotate-neg');
+                        }
+                        if (playerContainer.classList.contains('rotate')) {
+                            playerContainer.classList.remove('rotate');
+                        } 
                     } else {
-                        playerContainer.classList.add('rotate');
+                        if (playerContainer.classList.contains('rotate')) {
+                            playerContainer.classList.remove('rotate');
+                        } else {
+                            playerContainer.classList.add('rotate');
+                        }
+                        if (playerContainer.classList.contains('rotate-neg')) {
+                            playerContainer.classList.remove('rotate-neg');
+                        }
                     }
                     break;
             }
         }
     });
-}
-
-function CssClasse(className: string) {
-    return {
-        className: className,
-        toString: () => '.' + className,
-    };
-}
-
-function CssDocument(args: object[]) {
-    return {
-        inner: args,
-        toString: () => args.map(a => a.toString()).join(''),
-    };
-}
-
-function CssSelector(s: object | string | object[], a: object[]) {
-    let selector = typeof (s) === 'string' ? s : s.toString();
-    selector += '{' + a.map(b => b.toString() + ';').join('') + '}';
-    return {
-        selector: s,
-        a: a,
-        toString: () => selector,
-    };
-}
-
-function CssProperty(name: string, value: string) {
-    return {
-        name: name,
-        value: value,
-        toString: () => name + ':' + value,
-    };
 }

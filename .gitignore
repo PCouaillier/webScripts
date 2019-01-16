@@ -1,5 +1,4 @@
-*.js
 .idea
+.tmp
+.vscode
 node_modules
-!test/**
-build

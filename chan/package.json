@@ -4,8 +4,8 @@
   "description": "register of some script I use to improve my user experience on some websites",
   "main": "index.js",
   "scripts": {
-    "postinstall": "tsc -p . --outFile build/chan.js --module none",
-    "pretest": "tsc -p . --outDir build_test --module CommonJS",
+    "postinstall": "tsc -p . --outFile .tmp/chan.js --module amd && node npm-script/build.js",
+    "pretest": "tsc -p . --outDir .tmp --module CommonJS",
     "test": "mocha"
   },
   "repository": {
@@ -18,12 +18,12 @@
     "url": "https://github.com/PCouaillier/webScripts/issues"
   },
   "homepage": "https://github.com/PCouaillier/webScripts#readme",
-  "dependencies": {
-    "typescript": "^2.7.2"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.0.1"
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "requirejs": "^2.3.6",
+    "typescript": "^3.2.2"
   },
   "jshintConfig": {
     "esversion": 6

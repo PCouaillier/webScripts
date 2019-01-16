@@ -1,0 +1,9 @@
+// ==UserScript==
+// @name        chan
+// @namespace   pcouaillier.chan
+// @include     https://boards.4chan.org/*/thread/*
+// @version     1
+// @grant       none
+// ==/UserScript==
+
+'use strict';

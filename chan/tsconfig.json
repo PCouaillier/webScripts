@@ -11,17 +11,15 @@
         "emitDecoratorMetadata": true,
         "declaration": false,
         "noImplicitAny": true,
-        "noImplicitUseStrict": false,
+        "noImplicitUseStrict": true,
         "removeComments": false,
         "noLib": false,
-        "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": false
+        "preserveConstEnums": true
     },
     "exclude": [
-        "build",
-        "node_modules",
-        "typings/browser",
-        "typings/browser.d.ts"
+        "dist",
+        ".tmp",
+        "node_modules"
     ],
     "compileOnSave": true,
     "buildOnSave": false,
