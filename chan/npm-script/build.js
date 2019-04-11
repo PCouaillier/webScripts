@@ -31,7 +31,7 @@ const writeRequireJS = defaultWriter('lib/require.js');
 const writeGeneratedCode = customWriter('.tmp/chan.js', (writeStream, fileName) => {
     const reader = fs.createReadStream(fileName);
     reader.prependOnceListener('end', () => {
-        writeStream.write('\nrequire([\'chan\']);');
+        writeStream.write('\nrequire([\'chan\', \'Player\']);');
     });
     return reader;
 });

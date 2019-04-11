@@ -20,10 +20,10 @@
   "homepage": "https://github.com/PCouaillier/webScripts#readme",
   "dependencies": {},
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "requirejs": "^2.3.6",
-    "typescript": "^3.2.2"
+    "chai": "4.2.0",
+    "mocha": "6.1.2",
+    "requirejs": "2.3.6",
+    "typescript": "3.4.3"
   },
   "jshintConfig": {
     "esversion": 6

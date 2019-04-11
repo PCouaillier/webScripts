@@ -1,0 +1,19 @@
+{
+  "name": "youtube",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "jshintConfig": {
+    "esversion": 6
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "mocha": "6.1.2",
+    "typescript": "3.4.3"
+  }
+}

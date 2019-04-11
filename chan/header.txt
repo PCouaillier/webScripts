@@ -2,6 +2,9 @@
 // @name        chan
 // @namespace   pcouaillier.chan
 // @include     https://boards.4chan.org/*/thread/*
+// @include     http://boards.4chan.org/*/thread/*
+// @include     http://boards.4channel.org/*/thread/*
+// @include     https://boards.4channel.org/*/thread/*
 // @version     1
 // @grant       none
 // ==/UserScript==
