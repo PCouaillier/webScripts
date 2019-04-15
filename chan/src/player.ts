@@ -1,7 +1,10 @@
 import {CssClasse, CssDocument, CssProperty, CssSelector} from 'css-builder';
-declare var cache: HTMLVideoElement;
 
 export namespace Player {
+    let cache: HTMLVideoElement = document.createElement('video');
+    cache.preload = 'auto';
+    cache.autoplay = false;
+
     export interface El {
         name: string,
         url: string,

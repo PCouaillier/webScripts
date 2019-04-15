@@ -4,7 +4,8 @@
   "description": "register of some script I use to improve my user experience on some websites",
   "main": "index.js",
   "scripts": {
-    "postinstall": "tsc -p . --outFile .tmp/chan.js --module amd && node npm-script/build.js",
+    "postinstall": "npm run build",
+    "build": "tsc -p . --outFile .tmp/chan.js --module amd && node npm-script/build.js",
     "pretest": "tsc -p . --outDir .tmp --module CommonJS",
     "test": "mocha"
   },

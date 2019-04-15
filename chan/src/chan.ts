@@ -6,10 +6,6 @@ import { Player } from 'Player';
  */
 declare function requestIdleCallback(cb: VoidFunction): void;
 
-let cache = document.createElement('video');
-cache.preload = 'auto';
-cache.autoplay = false;
-
 namespace Downloader {
     const checkLocalStorage = true;
     const optimizedForFourChan = document.URL.includes('4chan.org') || document.URL.includes('4channel.org') || document.URL.includes('8ch.net');
